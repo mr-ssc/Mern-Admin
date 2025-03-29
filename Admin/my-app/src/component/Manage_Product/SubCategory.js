@@ -19,7 +19,7 @@ const SubCategory = () => {
 
   const fetchSubCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:8888/api/subcategory");
+      const response = await axios.get("https://mern-backend-sable.vercel.app/api/subcategory");
       setSubCategories(response.data);
     } catch (error) {
       console.error("Error fetching subcategories:", error);
@@ -28,7 +28,7 @@ const SubCategory = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:8888/api/category");
+      const response = await axios.get("https://mern-backend-sable.vercel.app/api/category");
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -79,9 +79,9 @@ const SubCategory = () => {
       };
 
       if (editingId) {
-        await axios.put(`http://localhost:8888/api/subcategory/${editingId}`, formDataToSend, config);
+        await axios.put(`https://mern-backend-sable.vercel.app/api/subcategory/${editingId}`, formDataToSend, config);
       } else {
-        await axios.post("http://localhost:8888/api/subcategory", formDataToSend, config);
+        await axios.post("https://mern-backend-sable.vercel.app/api/subcategory", formDataToSend, config);
       }
       setFormData({ name: "", category_id: "", category_name: "", image: null });
       setEditingId(null);
@@ -105,7 +105,7 @@ const SubCategory = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8888/api/subcategory/${id}`);
+      await axios.delete(`https://mern-backend-sable.vercel.app/api/subcategory/${id}`);
       fetchSubCategories();
     } catch (error) {
       console.error("Error deleting subcategory:", error);

@@ -14,7 +14,7 @@ const Signin = () => {
     e.preventDefault();
     setError("");
     try {
-      const { data } = await axios.post("http://localhost:8888/api/auth/login", {
+      const { data } = await axios.post("https://mern-backend-sable.vercel.app/api/auth/login", {
         email,
         password,
       });

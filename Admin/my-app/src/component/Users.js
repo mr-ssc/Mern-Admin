@@ -11,7 +11,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8888/api/users/all-users');
+        const response = await axios.get('https://mern-backend-sable.vercel.app/api/users/all-users');
         setUsers(response.data);
       } catch (err) {
         setError(err.response?.data?.message || err.message || 'Failed to fetch users');

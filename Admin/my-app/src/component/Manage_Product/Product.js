@@ -26,7 +26,7 @@ const Product = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:8888/api/product");
+      const res = await axios.get("https://mern-backend-sable.vercel.app/api/product");
       setProducts(res.data);
     } catch (error) {
       console.error(error);
@@ -35,7 +35,7 @@ const Product = () => {
 
   const fetchSubcategories = async () => {
     try {
-      const res = await axios.get("http://localhost:8888/api/subcategory");
+      const res = await axios.get("https://mern-backend-sable.vercel.app/api/subcategory");
       setSubcategories(res.data);
     } catch (error) {
       console.error(error);
@@ -71,11 +71,11 @@ const Product = () => {
 
       if (editingProduct) {
         await axios.put(
-          `http://localhost:8888/api/product/${editingProduct._id}`,
+          `https://mern-backend-sable.vercel.app/api/product/${editingProduct._id}`,
           formDataToSend
         );
       } else {
-        await axios.post("http://localhost:8888/api/product", formDataToSend);
+        await axios.post("https://mern-backend-sable.vercel.app/api/product", formDataToSend);
       }
 
       fetchProducts();
@@ -111,7 +111,7 @@ const Product = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8888/api/product/${id}`);
+      await axios.delete(`https://mern-backend-sable.vercel.app/api/product/${id}`);
       fetchProducts();
     } catch (error) {
       console.error(error);

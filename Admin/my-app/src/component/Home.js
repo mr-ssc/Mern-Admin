@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:8888/api/users/total-users");
+        const response = await axios.get("https://mern-backend-sable.vercel.app/api/users/total-users");
         setTotalUsers(response.data.totalUsers); // Set total user count
       } catch (error) {
         console.error("Error fetching user count:", error);
@@ -22,7 +22,7 @@ const Home = () => {
 
     const fetchTotalProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8888/api/product");
+        const response = await axios.get("https://mern-backend-sable.vercel.app/api/product");
         if (response.data && Array.isArray(response.data)) {
           setTotalProducts(response.data.length);
         }

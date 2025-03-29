@@ -15,7 +15,7 @@ const Category = () => {
     // Fetch Categories
     const fetchCategories = async () => {
         try {
-            const response = await axios.get("http://localhost:8888/api/category");
+            const response = await axios.get("https://mern-backend-sable.vercel.app/api/category");
             setCategories(response.data);
         } catch (error) {
             console.error("Error fetching categories:", error);
@@ -70,11 +70,11 @@ const Category = () => {
 
             if (editingId) {
                 // Update Category
-                await axios.put(`http://localhost:8888/api/category/${editingId}`, formData, config);
+                await axios.put(`https://mern-backend-sable.vercel.app/api/category/${editingId}`, formData, config);
                 setEditingId(null);
             } else {
                 // Create Category
-                await axios.post("http://localhost:8888/api/category", formData, config);
+                await axios.post("https://mern-backend-sable.vercel.app/api/category", formData, config);
             }
 
             setName("");
@@ -99,7 +99,7 @@ const Category = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this category?")) {
             try {
-                await axios.delete(`http://localhost:8888/api/category/${id}`);
+                await axios.delete(`https://mern-backend-sable.vercel.app/api/category/${id}`);
                 fetchCategories(); // Refresh List
             } catch (error) {
                 console.error("Error deleting category:", error);
