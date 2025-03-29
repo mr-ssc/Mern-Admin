@@ -1,0 +1,176 @@
+/* General Styles */
+.subcategory-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+
+
+.subcategory-container h2 {
+  text-align: center;
+  font-weight: 800;
+  color: rgb(0, 0, 0);
+}
+
+.subcategory-container p {
+  text-align: right;
+  padding: 10px;
+  color: red;
+}
+
+.subcategory-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.subcategory-form input,
+.subcategory-form select,
+.subcategory-form button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.subcategory-form button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.subcategory-form button:hover {
+  background-color: #0056b3;
+}
+
+.subcategory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.subcategory-table th,
+.subcategory-table td {
+  border: 2px solid #ccc;
+  padding: 12px;
+  text-align: left;
+}
+
+.subcategory-table th {
+  background-color: #00a6ffc9;
+}
+
+.subcategory-row:hover {
+  background-color: #f9f9f9;
+}
+
+.subcategory-image {
+  width: 50px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.edit-button,
+.delete-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button {
+  background-color: #ffc107;
+  color: black;
+}
+
+.edit-button:hover {
+  background-color: #e0a800;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .subcategory-form {
+    flex-direction: column;
+  }
+
+  .subcategory-form input[type="text"],
+  .subcategory-form input[type="file"] {
+    width: 100%;
+  }
+
+  .subcategory-table th,
+  .subcategory-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .subcategory-image {
+    max-width: 80px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .subcategory-container {
+    padding: 10px;
+  }
+
+  .subcategory-form button {
+    width: 100%;
+  }
+
+  .subcategory-table th,
+  .subcategory-table td {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .subcategory-image {
+    max-width: 60px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    padding: 3px 6px;
+    font-size: 12px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.subcategory-row {
+  animation: fadeIn 0.5s ease-in-out;
+}

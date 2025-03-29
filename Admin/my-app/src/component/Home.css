@@ -1,0 +1,80 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.home {
+    /* background-color: #f4f4f9; */
+    /* height: 1000px; */
+    padding: 20px;
+    text-align: center;
+}
+
+.home h2 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.home-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.home-box {
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.home-box p {
+    font-size: 1.2rem;
+    margin: 0 0 10px 0;
+    color: #555;
+}
+
+.home-box span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #222;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .home-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .home-box {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home h2 {
+        font-size: 1.5rem;
+    }
+
+    .home-box p {
+        font-size: 1rem;
+    }
+
+    .home-box span {
+        font-size: 1.2rem;
+    }
+}

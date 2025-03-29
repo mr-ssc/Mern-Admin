@@ -1,0 +1,70 @@
+/* Manage_Product.css */
+
+/* Container for the buttons */
+.product-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* Base style for the product boxes */
+  .product-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  /* Hover effect */
+  .product-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+  }
+  
+  /* Icon styling */
+  .product-box i {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #007bff;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .product-box {
+      width: 120px;
+      height: 120px;
+      font-size: 14px;
+    }
+  
+    .product-box i {
+      font-size: 24px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .product-box {
+      width: 100px;
+      height: 100px;
+      font-size: 12px;
+    }
+  
+    .product-box i {
+      font-size: 20px;
+    }
+  }
