@@ -10,7 +10,7 @@ const Order = () => {
 
     const fetchOrders = async () => {
         try {
-            const res = await fetch("http://localhost:8888/api/orders");
+            const res = await fetch("https://mern-backend-sable.vercel.app/api/orders");
             if (!res.ok) throw new Error("Failed to fetch orders");
             const data = await res.json();
             setOrders(data);
@@ -23,7 +23,7 @@ const Order = () => {
 
     const fetchOrderCount = async () => {
         try {
-            const res = await fetch("http://localhost:8888/api/orders/count");
+            const res = await fetch("https://mern-backend-sable.vercel.app/api/orders/count");
             if (!res.ok) throw new Error("Failed to fetch order count");
             const data = await res.json();
             setOrderCount(data.totalOrders);
@@ -35,7 +35,7 @@ const Order = () => {
     const updateStatus = async (orderId, newStatus) => {
         try {
             const res = await fetch(
-                `http://localhost:8888/api/orders/status/${orderId}`,
+                `https://mern-backend-sable.vercel.app/api/orders/status/${orderId}`,
                 {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },

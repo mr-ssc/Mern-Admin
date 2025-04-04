@@ -33,7 +33,7 @@ const Home = () => {
 
     const fetchTotalOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:8888/api/orders");
+        const response = await axios.get("https://mern-backend-sable.vercel.app/api/orders");
         if (response.data && Array.isArray(response.data)) {
           setTotalOrders(response.data.length);
         }
