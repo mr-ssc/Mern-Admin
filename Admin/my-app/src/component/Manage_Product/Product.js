@@ -1,86 +1,106 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Product.css"
+import "./Product.css";
 import Navbar from "../Navbar";
 
 const Product = () => {
-  const [products, setProducts] = useState([]);
-  const [subcategories, setSubcategories] = useState([]);
-  const [formData, setFormData] = useState({
-    name: "",
-    image: null,
-    original_price: "",
-    discount_price: "",
-    category_id: "",
-    category_name: "",
-    subcategory_id: "",
-    subcategory_name: "",
+  const [state, setState] = useState({
+    products: [],
+    subcategories: [],
+    loading: false,
+    formData: {
+      name: "",
+      image: null,
+      original_price: "",
+      discount_price: "",
+      category_id: "",
+      category_name: "",
+      subcategory_id: "",
+      subcategory_name: "",
+    },
+    editingId: null
   });
 
-  const [editingProduct, setEditingProduct] = useState(null);
+  const API_URL = "https://mern-backend-sable.vercel.app/api/product";
+  const SUBCAT_URL = "https://mern-backend-sable.vercel.app/api/subcategory";
 
   useEffect(() => {
-    fetchProducts();
-    fetchSubcategories();
+    fetchData();
   }, []);
 
-  const fetchProducts = async () => {
+  const fetchData = async () => {
+    setState(prev => ({ ...prev, loading: true }));
     try {
-      const res = await axios.get("https://mern-backend-sable.vercel.app/api/product");
-      setProducts(res.data);
+      const [productsRes, subcatRes] = await Promise.all([
+        axios.get(API_URL),
+        axios.get(SUBCAT_URL)
+      ]);
+      setState(prev => ({
+        ...prev,
+        products: productsRes.data,
+        subcategories: subcatRes.data,
+        loading: false
+      }));
     } catch (error) {
       console.error(error);
-    }
-  };
-
-  const fetchSubcategories = async () => {
-    try {
-      const res = await axios.get("https://mern-backend-sable.vercel.app/api/subcategory");
-      setSubcategories(res.data);
-    } catch (error) {
-      console.error(error);
+      setState(prev => ({ ...prev, loading: false }));
     }
   };
 
   const handleChange = (e) => {
-    if (e.target.name === "image") {
-      setFormData({ ...formData, image: e.target.files[0] });
-    } else if (e.target.name === "subcategory_id") {
-      const selectedSubcategory = subcategories.find(
-        (sub) => sub._id === e.target.value
-      );
-      setFormData({
-        ...formData,
-        subcategory_id: selectedSubcategory._id,
-        subcategory_name: selectedSubcategory.name,
-        category_id: selectedSubcategory.category_id._id,
-        category_name: selectedSubcategory.category_id.name,
-      });
+    const { name, value, files } = e.target;
+
+    if (name === "image") {
+      setState(prev => ({
+        ...prev,
+        formData: { ...prev.formData, image: files[0] }
+      }));
+    } else if (name === "subcategory_id") {
+      const selectedSub = state.subcategories.find(sub => sub._id === value);
+      setState(prev => ({
+        ...prev,
+        formData: {
+          ...prev.formData,
+          subcategory_id: selectedSub._id,
+          subcategory_name: selectedSub.name,
+          category_id: selectedSub.category_id._id,
+          category_name: selectedSub.category_id.name,
+        }
+      }));
     } else {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      setState(prev => ({
+        ...prev,
+        formData: { ...prev.formData, [name]: value }
+      }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setState(prev => ({ ...prev, loading: true }));
+
+    const formData = new FormData();
+    Object.entries(state.formData).forEach(([key, val]) => val !== null && formData.append(key, val));
+
     try {
-      const formDataToSend = new FormData();
-      Object.keys(formData).forEach((key) => {
-        formDataToSend.append(key, formData[key]);
-      });
-
-      if (editingProduct) {
-        await axios.put(
-          `https://mern-backend-sable.vercel.app/api/product/${editingProduct._id}`,
-          formDataToSend
-        );
+      if (state.editingId) {
+        await axios.put(`${API_URL}/${state.editingId}`, formData);
       } else {
-        await axios.post("https://mern-backend-sable.vercel.app/api/product", formDataToSend);
+        await axios.post(API_URL, formData);
       }
+      resetForm();
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setState(prev => ({ ...prev, loading: false }));
+    }
+  };
 
-      fetchProducts();
-      setEditingProduct(null);
-      setFormData({
+  const resetForm = () => {
+    setState(prev => ({
+      ...prev,
+      formData: {
         name: "",
         image: null,
         original_price: "",
@@ -89,126 +109,174 @@ const Product = () => {
         category_name: "",
         subcategory_id: "",
         subcategory_name: "",
-      });
-    } catch (error) {
-      console.error(error);
-    }
+      },
+      editingId: null
+    }));
   };
 
   const handleEdit = (product) => {
-    setEditingProduct(product);
-    setFormData({
-      name: product.name,
-      image: null,
-      original_price: product.original_price,
-      discount_price: product.discount_price,
-      category_id: product.category_id,
-      category_name: product.category_name,
-      subcategory_id: product.subcategory_id,
-      subcategory_name: product.subcategory_name,
-    });
+    setState(prev => ({
+      ...prev,
+      formData: {
+        name: product.name,
+        image: null,
+        original_price: product.original_price,
+        discount_price: product.discount_price,
+        category_id: product.category_id,
+        category_name: product.category_name,
+        subcategory_id: product.subcategory_id,
+        subcategory_name: product.subcategory_name,
+      },
+      editingId: product._id
+    }));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure?")) return;
+
+    setState(prev => ({ ...prev, loading: true }));
     try {
-      await axios.delete(`https://mern-backend-sable.vercel.app/api/product/${id}`);
-      fetchProducts();
+      await axios.delete(`${API_URL}/${id}`);
+      fetchData();
     } catch (error) {
       console.error(error);
+    } finally {
+      setState(prev => ({ ...prev, loading: false }));
     }
   };
 
+  const { products, subcategories, loading, formData, editingId } = state;
+
   return (
     <>
-    <Navbar/>
-    <div className="product-container">
-      <h2>{editingProduct ? "Edit Product" : "Create Product"}</h2>
-      <p>*1mb Size Jpeg, jpg, png.</p>
-      <form onSubmit={handleSubmit} className="product-form">
-        <input
-          type="text"
-          name="name"
-          placeholder="Product Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        <input type="file" name="image" onChange={handleChange} required />
+      <Navbar />
+      <div className="product-container">
+        <div className={`form-container ${editingId ? 'editing' : ''}`}>
+          <h2>{editingId ? "Edit Product" : "Add Product"}</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Product Name"
+              required
+            />
 
-        <input
-          type="number"
-          name="original_price"
-          placeholder="Original Price"
-          value={formData.original_price}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="discount_price"
-          placeholder="Discount Price"
-          value={formData.discount_price}
-          onChange={handleChange}
-          required
-        />
+            <label className="file-label">
+              {formData.image?.name || "Choose Image"}
+              <input
+                type="file"
+                name="image"
+                onChange={handleChange}
+                accept="image/*"
+                required={!editingId}
+              />
+            </label>
 
-        <select name="subcategory_id" onChange={handleChange} required>
-          <option value="">Select Subcategory</option>
-          {subcategories.map((sub) => (
-            <option key={sub._id} value={sub._id}>
-              {sub.name}
-            </option>
-          ))}
-        </select>
+            <div className="price-row">
+              <input
+                type="number"
+                name="original_price"
+                value={formData.original_price}
+                onChange={handleChange}
+                placeholder="Original Price"
+                required
+              />
+              <input
+                type="number"
+                name="discount_price"
+                value={formData.discount_price}
+                onChange={handleChange}
+                placeholder="Discount Price"
+                required
+              />
+            </div>
 
-        <input
-          type="text"
-          name="category_name"
-          value={formData.category_name}
-          readOnly
-          placeholder="Category Name (Auto-filled)"
-        />
+            <select
+              name="subcategory_id"
+              value={formData.subcategory_id}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Subcategory</option>
+              {subcategories.map(sub => (
+                <option key={sub._id} value={sub._id}>{sub.name}</option>
+              ))}
+            </select>
 
-        <button type="submit">
-          {editingProduct ? "Update Product" : "Create Product"}
-        </button>
-      </form>
+            <input
+              name="category_name"
+              value={formData.category_name}
+              readOnly
+              placeholder="Category (auto)"
+            />
 
-      <h2>Product List</h2>
-      <table border="1" className="product-table">
-        <thead>
-          <tr>
-            <th>Sr. No</th>
-            <th>Name</th>
-            <th>Image</th>
-            <th>Original Price</th>
-            <th>Discount Price</th>
-            <th>Subcategory</th>
-            <th>Category</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product, index) => (
-            <tr key={product._id}>
-              <td>{index + 1}</td>
-              <td>{product.name}</td>
-              <td>
-                <img src={product.image} alt={product.name} width="50" />
-              </td>
-              <td>{product.original_price}</td>
-              <td>{product.discount_price}</td>
-              <td>{product.subcategory_name}</td>
-              <td>{product.category_name}</td>
-              <td>
-                <button onClick={() => handleEdit(product)}>Edit</button>
-                <button onClick={() => handleDelete(product._id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+            <div className="form-actions">
+              <button type="submit" disabled={loading}>
+                {loading ? "Processing..." : editingId ? "Update" : "Create"}
+              </button>
+              {editingId && (
+                <button type="button" onClick={resetForm}>
+                  Cancel
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
+
+        <div className="product-list">
+          <h2>Products List ({products.length})</h2>
+
+          {loading && !products.length ? (
+            <div className="loader">Loading...</div>
+          ) : products.length ? (
+            <div className="table-wrap">
+              <table >
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Prices</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products.map((prod, i) => (
+                    <tr key={prod._id}>
+                      <td data-label="#">{i + 1}</td>
+                      <td data-label="Name">{prod.name}</td>
+                      <td data-label="Image">
+                        <img
+                          src={prod.image}
+                          alt={prod.name}
+                          onError={(e) => e.target.src = "https://via.placeholder.com/50"}
+                        />
+                      </td>
+                      <td data-label="Prices">
+                        <span className="original-price">₹{prod.original_price}</span>
+                        <span className="discount-price">₹{prod.discount_price}</span>
+                      </td>
+                      <td data-label="Category">
+                        <div>{prod.subcategory_name}</div>
+                        <small>{prod.category_name}</small>
+                      </td>
+                      <td data-label="Actions">
+                        <button onClick={() => handleEdit(prod)}>Edit</button>
+                        <button onClick={() => handleDelete(prod._id)}>Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="empty">No products found</div>
+          )}
+        </div>
+      </div>
     </>
   );
 };

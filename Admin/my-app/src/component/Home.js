@@ -7,18 +7,18 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0); // New state
   const [adminEmail, setAdminEmail] = useState("");
 
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
         const response = await axios.get("https://mern-backend-sable.vercel.app/api/users/total-users");
-        setTotalUsers(response.data.totalUsers); // Set total user count
+        setTotalUsers(response.data.totalUsers);
       } catch (error) {
         console.error("Error fetching user count:", error);
       }
     };
-    
 
     const fetchTotalProducts = async () => {
       try {
@@ -31,7 +31,17 @@ const Home = () => {
       }
     };
 
-    // Get admin email from localStorage (assuming it's stored after signin)
+    const fetchTotalOrders = async () => {
+      try {
+        const response = await axios.get("http://localhost:8888/api/orders");
+        if (response.data && Array.isArray(response.data)) {
+          setTotalOrders(response.data.length);
+        }
+      } catch (error) {
+        console.error("Error fetching order count:", error);
+      }
+    };
+
     const storedAdmin = JSON.parse(localStorage.getItem("admin"));
     if (storedAdmin && storedAdmin.email) {
       setAdminEmail(storedAdmin.email);
@@ -39,6 +49,7 @@ const Home = () => {
 
     fetchTotalUsers();
     fetchTotalProducts();
+    fetchTotalOrders(); // Call order fetch function
   }, []);
 
   return (
@@ -46,10 +57,9 @@ const Home = () => {
       <Navbar />
       <div className="home">
         <h2>Welcome Admin</h2>
-        <p>{adminEmail}</p> {/* Display signed-in admin's email */}
+        <p>{adminEmail}</p>
 
         <div className="home-container">
-
           <Link to={"/Users"}>
             <div className="home-box">
               <p>Total Users</p>
@@ -64,12 +74,14 @@ const Home = () => {
             </div>
           </Link>
 
-          <div className="home-box">
-            <p>Total Orders</p>
-            <span>890</span>
-          </div>
+          <Link to={"/Order"}>
+            <div className="home-box">
+              <p>Total Orders</p>
+              <span>{totalOrders}</span> {/* Display fetched total orders */}
+            </div>
+          </Link>
         </div>
-      </div >
+      </div>
     </>
   );
 };
