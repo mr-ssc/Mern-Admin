@@ -10,6 +10,7 @@
     "axios": "^1.8.4",
     "compressorjs": "^1.2.1",
     "react": "^19.0.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.0",
     "react-scripts": "5.0.1",

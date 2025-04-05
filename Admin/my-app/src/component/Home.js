@@ -4,10 +4,35 @@ import axios from "axios";
 import "./Home.css";
 import { Link } from "react-router-dom";
 
+const Counter = ({ target }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 1000; // in ms
+    const incrementTime = 30;
+    const steps = Math.ceil(duration / incrementTime);
+    const increment = Math.ceil(target / steps);
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        start = target;
+        clearInterval(timer);
+      }
+      setCount(start);
+    }, incrementTime);
+
+    return () => clearInterval(timer);
+  }, [target]);
+
+  return <span>{count}</span>;
+};
+
 const Home = () => {
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
-  const [totalOrders, setTotalOrders] = useState(0); // New state
+  const [totalOrders, setTotalOrders] = useState(0);
   const [adminEmail, setAdminEmail] = useState("");
 
   useEffect(() => {
@@ -49,7 +74,7 @@ const Home = () => {
 
     fetchTotalUsers();
     fetchTotalProducts();
-    fetchTotalOrders(); // Call order fetch function
+    fetchTotalOrders();
   }, []);
 
   return (
@@ -63,21 +88,21 @@ const Home = () => {
           <Link to={"/Users"}>
             <div className="home-box">
               <p>Total Users</p>
-              <span>{totalUsers}</span>
+              <Counter target={totalUsers} />
             </div>
           </Link>
 
           <Link to={"/Products"}>
             <div className="home-box">
               <p>Total Products</p>
-              <span>{totalProducts}</span>
+              <Counter target={totalProducts} />
             </div>
           </Link>
 
           <Link to={"/Order"}>
             <div className="home-box">
               <p>Total Orders</p>
-              <span>{totalOrders}</span> {/* Display fetched total orders */}
+              <Counter target={totalOrders} />
             </div>
           </Link>
         </div>
