@@ -235,7 +235,7 @@ const Product = () => {
               <table >
                 <thead>
                   <tr>
-                    <th>#</th>
+                    <th>Sr No.</th>
                     <th>Name</th>
                     <th>Image</th>
                     <th>Prices</th>
@@ -246,7 +246,7 @@ const Product = () => {
                 <tbody>
                   {products.map((prod, i) => (
                     <tr key={prod._id}>
-                      <td data-label="#">{i + 1}</td>
+                      <td data-label="Sr No.">{i + 1}</td>
                       <td data-label="Name">{prod.name}</td>
                       <td data-label="Image">
                         <img
