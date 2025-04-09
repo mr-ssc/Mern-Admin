@@ -1,82 +1,176 @@
-/* General Styles */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    color: #333;
-}
+/* Home.css */
 
+/* Base Styles */
 .home {
-    /* background-color: #f4f4f9; */
-    /* height: 1000px; */
-    padding: 20px;
-    text-align: center;
-}
-
-.home h2 {
+    padding: 2rem;
+    min-height: calc(100vh - 60px); /* Adjust based on your navbar height */
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .home h2 {
+    color: #2c3e50;
     font-size: 4rem;
-    margin-bottom: 20px;
-    color: #444;
-}
-
-.home-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.home-box {
-    background: #fff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    margin-bottom: 0.5rem;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.home-box:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.home-box p {
+    animation: fadeIn 1s ease-in-out;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  
+  .home p {
+    color: #7f8c8d;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    animation: fadeIn 1.2s ease-in-out;
+  }
+  
+  .home-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .home-box {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .home-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .home-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #3498db, #9b59b6);
+    transition: all 0.3s ease;
+  }
+  
+  .home-box:hover::before {
+    height: 8px;
+  }
+  
+  .home-box p {
+    color: #7f8c8d;
     font-size: 1.2rem;
-    margin: 0 0 10px 0;
-    color: #555;
-}
-
-.home-box span {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #222;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  
+  .home-box span {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+  
+  /* Animation for the counter boxes */
+  .home-box:nth-child(1) {
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  .home-box:nth-child(2) {
+    animation: slideUp 1s ease-out;
+  }
+  
+  .home-box:nth-child(3) {
+    animation: slideUp 1.2s ease-out;
+  }
+  
+  /* Keyframe Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
     .home-container {
-        flex-direction: column;
-        align-items: center;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
-
-    .home-box {
-        width: 80%;
-        margin-bottom: 20px;
-    }
-}
-
-@media (max-width: 480px) {
+    
     .home h2 {
-        font-size: 1.5rem;
+      font-size: 1.8rem;
     }
-
-    .home-box p {
-        font-size: 1rem;
+    
+    .home-box {
+      padding: 1.5rem 1rem;
     }
-
+  }
+  
+  @media (max-width: 480px) {
+    .home {
+      padding: 1.5rem 1rem;
+    }
+    
+    .home h2 {
+      font-size: 1.5rem;
+    }
+    
     .home-box span {
-        font-size: 1.2rem;
+      font-size: 2rem;
     }
-}
-
-
+  }
+  
+  /* Add a subtle pulse animation for the counter */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .home-box:hover span {
+    color: #3498db;
+    animation: pulse 0.5s ease;
+  }
+  
+  /* Link styles to remove default styling */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }

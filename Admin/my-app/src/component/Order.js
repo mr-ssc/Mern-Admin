@@ -94,54 +94,58 @@ const Order = () => {
     return (
         <>
             <Navbar />
-            <div className="order-table-container">
-                <h2 className="order-header">All Orders (Total: {orderCount})</h2>
-                {orders.length === 0 ? (
-                    <p className="no-orders">No orders found</p>
-                ) : (
-                    <table className="orders-table">
-                        <thead>
-                            <tr>
-                                <th>Sr. No</th>
-                                <th>User Name</th>
-                                <th>Product</th>
-                                <th>Status</th>
-                                <th>Update Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.map((order, index) => (
-                                <tr key={order._id}>
-                                    <td>{index + 1}</td>
-                                    <td>{order.username}</td>
-                                    <td>{order.productName}</td>
-                                    <td>
-                                        <span 
-                                            className="status-badge"
-                                            style={{ backgroundColor: getStatusColor(order.status) }}
-                                        >
-                                            {order.status}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <select
-                                            value={order.status}
-                                            onChange={(e) => updateStatus(order._id, e.target.value)}
-                                            className="status-select"
-                                            style={{ borderColor: getStatusColor(order.status) }}
-                                        >
-                                            <option value="pending">Pending</option>
-                                            <option value="processing">Processing</option>
-                                            <option value="shipped">Shipped</option>
-                                            <option value="delivered">Delivered</option>
-                                            <option value="cancelled">Cancelled</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                )}
+            <div className="order-page-container">
+                <div className="order-container">
+                    <h2 className="order-header">All Orders (Total: {orderCount})</h2>
+                    {orders.length === 0 ? (
+                        <p className="no-orders">No orders found</p>
+                    ) : (
+                        <div className="table-wrapper">
+                            <table className="orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Sr. No</th>
+                                        <th>User Name</th>
+                                        <th>Product</th>
+                                        <th>Status</th>
+                                        <th>Update Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {orders.map((order, index) => (
+                                        <tr key={order._id}>
+                                            <td data-label="Sr. No">{index + 1}</td>
+                                            <td data-label="User Name">{order.username}</td>
+                                            <td data-label="Product">{order.productName}</td>
+                                            <td data-label="Status">
+                                                <span 
+                                                    className="status-badge"
+                                                    style={{ backgroundColor: getStatusColor(order.status) }}
+                                                >
+                                                    {order.status}
+                                                </span>
+                                            </td>
+                                            <td data-label="Update Status">
+                                                <select
+                                                    value={order.status}
+                                                    onChange={(e) => updateStatus(order._id, e.target.value)}
+                                                    className="status-select"
+                                                    style={{ borderColor: getStatusColor(order.status) }}
+                                                >
+                                                    <option value="pending">Pending</option>
+                                                    <option value="processing">Processing</option>
+                                                    <option value="shipped">Shipped</option>
+                                                    <option value="delivered">Delivered</option>
+                                                    <option value="cancelled">Cancelled</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
             </div>
         </>
     );

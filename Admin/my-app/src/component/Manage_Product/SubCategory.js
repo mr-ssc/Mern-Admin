@@ -116,8 +116,8 @@ const SubCategory = () => {
     <>
       <Navbar />
       <div className={`subcategory-container ${isUploading ? "blur-background" : ""}`}>
-        <h2>SubCategory Management</h2>
-        <p>*1mb Size Jpeg, jpg, png.</p>
+        <h2 className="subcategory-hed" >SubCategory Management</h2>
+        <p  className="subcategory-hed">*1mb Size Jpeg, jpg, png.</p>
 
         <form onSubmit={handleSubmit} className="subcategory-form">
           <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="SubCategory Name" required />
@@ -137,7 +137,7 @@ const SubCategory = () => {
           {uploadProgress > 0 && <progress value={uploadProgress} max="100" />}
         </form>
 
-        <h2>SubCategory List</h2>
+        <h2 className="subcategory-hed">SubCategory List</h2>
 
         <table className="subcategory-table">
           <thead>
