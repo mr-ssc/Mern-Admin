@@ -26,10 +26,10 @@ const Users = () => {
   return (
     <>
       <Navbar />
-      
+
       <div className="users-container">
         <h2 className="users-title">User List</h2>
-        
+
         {loading ? (
           <div className="loading-spinner">
             <div className="spinner" data-testid="loading-spinner"></div>
@@ -53,10 +53,10 @@ const Users = () => {
                 {users.length > 0 ? (
                   users.map((user, index) => (
                     <tr key={user._id || index}>
-                      <td>{index + 1}</td>
-                      <td>{user.name || 'N/A'}</td>
-                      <td>{user.phone || 'N/A'}</td>
-                      <td>{user.address || 'N/A'}</td>
+                      <td data-label="Sr. No">{index + 1}</td>
+                      <td data-label="Name">{user.name || 'N/A'}</td>
+                      <td data-label="Phone No">{user.phone || 'N/A'}</td>
+                      <td data-label="Address">{user.address || 'N/A'}</td>
                     </tr>
                   ))
                 ) : (
