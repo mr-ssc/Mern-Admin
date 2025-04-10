@@ -35,7 +35,7 @@ const Order = () => {
     const updateStatus = async (orderId, newStatus) => {
         try {
             const res = await fetch(
-                `y`,
+                `https://mern-backend-sable.vercel.app/api/orders/status/${orderId}`,
                 {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
